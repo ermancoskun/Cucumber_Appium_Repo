@@ -7,7 +7,7 @@ import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import pages.AileButcemPage;
+import pages.AppPage.AileButcemPage;
 import utils.ConfigReader;
 import utils.Driver;
 import utils.ReusableMethods;
@@ -24,6 +24,7 @@ public class aileButcemStep {
 
     @Given("Kullanici kurulumlari tamamlar")
     public void kullanici_kurulumlari_tamamlar() {
+
         Driver.getAndroidDriver();
     }
 
@@ -47,19 +48,24 @@ public class aileButcemStep {
 
     @Then("uygulamaya kullanici bilgileriyle giris yapildigini dogrulayin")
     public void uygulamaya_kullanici_bilgileriyle_giris_yapildigini_dogrulayin() {
-        ReusableMethods.wait(1);
+        //ReusableMethods.wait(1);
         page.girisBasariliMethodu();
     }
-    @Then("sol kisimdaki menuden hesabim bolumune gidin")
-    public void sol_kisimdaki_menuden_hesabim_bolumune_gidin() {
+    @Then("sol kisimdaki menuden {string} bolumune gidin")
+    public void solKisimdakiMenudenBolumuneGidin(String hesabim) {
+        ReusableMethods.wait(6);
+        page.solUstMenu.click();
+        ReusableMethods.scrollWithUiScrollable(hesabim);
 
     }
-    @Then("hesabim sayfasindaki bilgileri degistirerek degisikleri kaydedin")
-    public void hesabim_sayfasindaki_bilgileri_degistirerek_degisikleri_kaydedin() {
-
+    @Then("hesabim sayfasindaki bilgileri {string} {string} {string} {string} {string} degistirerek degisikleri kaydedin")
+    public void hesabimSayfasindakiBilgileriDegistirerekDegisikleriKaydedin(String isim, String soyisim, String sehir, String yas, String meslek) {
+        page.hesabimBilgiDegisikligi(ConfigReader.getProperty(isim),ConfigReader.getProperty(soyisim),ConfigReader.getProperty(sehir),
+                ConfigReader.getProperty(yas),ConfigReader.getProperty(meslek));
     }
     @Then("ardindan degisiklerin yapildigini dogrulayin")
     public void ardindan_degisiklerin_yapildigini_dogrulayin() {
+    page.hesapBilgiDegisikligiAssert();
 
     }
 
